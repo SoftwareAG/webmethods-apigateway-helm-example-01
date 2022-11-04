@@ -1,0 +1,112 @@
+# Default values for wmtcbm11.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# replicaCount: 1
+
+image:
+  registry: ghcr.io/softwareag-government-solutions
+  repository: wmtcbm11
+  pullPolicy: IfNotPresent
+  tag: 10.11-latest
+
+## image pull secrets
+imagePullSecrets: []
+
+# additionals labels
+labels: {}
+
+nameOverride: ""
+fullnameOverride: ""
+
+# the licensing needed for the product
+licenseSecret: {}
+  # name: ""
+  # key: ""
+  # path: ""
+licenseMountPath: /opt/softwareag/Terracotta/terracotta-license.key
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext:
+  fsGroup: 1724
+
+securityContext:
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1724
+
+# Labels: Add default labels for the volumeClaimTemplate
+persistence:
+  diskstore:
+    enabled: false
+    labels:
+      enabled: true
+    annotations: {}
+  backups:
+    enabled: false
+    labels:
+      enabled: true
+    annotations: {}
+  index:
+    enabled: false
+    labels:
+      enabled: true
+    annotations: {}
+
+# these claim templates are only enabled if the persistence is enabled for the related layer
+volumeClaimTemplates:
+  diskstore:
+    accessModes: [ "ReadWriteOnce" ]
+    storageClassName: default
+    resources:
+      requests:
+        storage: 20Gi
+  backups:
+    accessModes: [ "ReadWriteOnce" ]
+    storageClassName: default
+    resources:
+      requests:
+        storage: 10Gi
+  index:
+    accessModes: [ "ReadWriteOnce" ]
+    storageClassName: default
+    resources:
+      requests:
+        storage: 5Gi
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity:        
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1
+        podAffinityTerm:
+          topologyKey: kubernetes.io/hostname
+          labelSelector: {}

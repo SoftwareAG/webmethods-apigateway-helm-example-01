@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "wmtcbm11.fullname" . }}-test-connection"
+  labels:
+    {{- include "wmtcbm11.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "wmtcbm11.fullname" . }}.{{ include "wmtcbm11.fullname" . }}-hl:9530']
+  restartPolicy: Never
