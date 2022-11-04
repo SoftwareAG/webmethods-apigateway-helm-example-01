@@ -3,18 +3,21 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "apigateway.customPrefix" . }}{{ .Values.tcConfig }}
+  name: {{ .Values.global.customPrefix }}-tc-config
   labels:
-    {{- include "apigateway.labels" . | nindent 4 }}
+    {{- include "wmtcbm11.labels" . | nindent 4 }}
 data:
   tc-config.xml: |
     <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
     <con:tc-config xmlns:con="http://www.terracotta.org/config">
         <servers>
-            {{- $fullSsName      := printf "%s%s" ( include "apigateway.customPrefix" . ) .Values.statefulsetName }}
-            {{- $fullServiceName := printf "%s%s" ( include "apigateway.customPrefix" . ) .Values.serviceName }}
+            {{- $fullSsName      := printf "%s%s" .Values.global.customPrefix .Values.statefulsetName }}
+            {{- $fullServiceName := printf "%s%s" .Values.global.customPrefix .Values.serviceName }}
             <server host="{{ $fullSsName }}-0.{{ $fullServiceName }}" name="{{ $fullSsName }}-0" bind="0.0.0.0" jmx-enabled="false">
                 <logs>stdout:</logs>
+                <data>{{ .Values.mountPaths.datastore }}</data>
+                <index>{{ .Values.mountPaths.index }}</index>
+                <data-backup>{{ .Values.mountPaths.backup }}</data-backup>
                 <tsa-port bind="0.0.0.0">{{ .Values.port }}</tsa-port>
                 <tsa-group-port bind="0.0.0.0">{{ .Values.syncPort }}</tsa-group-port>
             </server>

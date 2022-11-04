@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ include "wmtcbm11.fullname" . }}
+  name: {{ .Values.global.customPrefix }}{{ .Values.statefulsetName }}
   labels:
     {{- include "wmtcbm11.labels" . | nindent 4 }}
 spec:
-  serviceName: {{ include "wmtcbm11.fullname" . }}-hl
+  serviceName: {{ .Values.global.customPrefix }}{{ .Values.serviceName }}
   # 1 replica by design decision
   replicas: 1
   # The default is to deploy all pods serially. By setting this to parallel all pods are started at
@@ -17,31 +17,31 @@ spec:
   #     partition: 0
   volumeClaimTemplates:
   - metadata:
-      name: diskstore-{{ include "wmtcbm11.fullname" . }}
+      name: diskstore-{{ .Values.global.customPrefix }}{{ .Values.statefulsetName }}
       labels:
-{{- include "wmtcbm11.labels" . | nindent 8 }}
+        {{- include "wmtcbm11.labels" . | nindent 8 }}
     {{- with .Values.persistence.annotations }}
       annotations:
-{{- toYaml . | nindent 8 }}
+        {{- toYaml . | nindent 8 }}
     {{- end }}
-   spec:
-{{ toYaml .Values.volumeClaimTemplates.diskstore | indent 6 }}
+    spec:
+      {{- toYaml .Values.volumeClaimTemplates.diskstore | nindent 6 }}
   - metadata:
-      name: backups-{{ include "wmtcbm11.fullname" . }}
+      name: backups-{{ .Values.global.customPrefix }}{{ .Values.statefulsetName }}
       labels:
         release: {{ .Release.Name | quote }}
         chart: {{ .Chart.Name }}
         app: {{ include "wmtcbm11.fullname" . }}
     spec:
-{{ toYaml .Values.volumeClaimTemplates.backups | indent 6 }}
+      {{- .Values.volumeClaimTemplates.backups | toYaml | nindent 6 }}
   - metadata:
-      name: index-{{ include "wmtcbm11.fullname" . }}
+      name: index-{{ .Values.global.customPrefix }}{{ .Values.statefulsetName }}
       labels:
         release: {{ .Release.Name | quote }}
         chart: {{ .Chart.Name }}
         app: {{ include "wmtcbm11.fullname" . }}
     spec:
-{{ toYaml .Values.volumeClaimTemplates.index | indent 6 }}
+      {{ toYaml .Values.volumeClaimTemplates.index | nindent 6 }}
 
   selector:
     matchLabels:

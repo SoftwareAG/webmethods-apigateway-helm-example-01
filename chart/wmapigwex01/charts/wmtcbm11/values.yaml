@@ -26,15 +26,18 @@ mountPaths:
   # see https://containers.softwareag.com/products/bigmemorymax-server - setup instructions
   # the license file must be a secret
   config: /opt/softwareag/config
-  diskstore: /opt/softwareag/Terracotta/data/diskstore
-  index: /opt/softwareag/Terracotta/data/index
-  backups: /opt/softwareag/Terracotta/data/backups
+  diskstore: /data/diskstore
+  index: /data/index
+  backups: /data/backups
 
 licenseKey: ./license.key
 
 ###############################################################
 ## Values to be changed less frequently, for advanced users
 ###############################################################
+
+statefulsetName:   "terracotta-ss"
+serviceName:       "terracotta-headless-service"
 
 ## image pull secrets
 imagePullSecrets: []

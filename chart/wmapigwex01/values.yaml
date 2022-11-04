@@ -2,3 +2,7 @@
 
 images:
   api-gateway-minimal:
+
+global:
+  customPrefix: ag-01-1
+  labels: {}
