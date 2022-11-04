@@ -13,12 +13,13 @@ spec:
   publishNotReadyAddresses: true
   ports:
     - name: tsaport
-      port: 9510
-    - name: jmxport
-      port: 9520
+      port: {{ .Values.portPrefix }}10
+    # These ports are not normally used, uncomment if needed
+    # - name: jmxport
+    #  port: {{ .Values.portPrefix }}20
     # - name: groupport
-    #   port: 9530
+    #   port: {{ .Values.portPrefix }}30
     - name: mgtport
-      port: 9540
+      port: {{ .Values.portPrefix }}40
   selector:
     {{- include "wmtcbm11.selectorLabels" . | nindent 4 }}

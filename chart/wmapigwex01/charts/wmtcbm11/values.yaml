@@ -39,6 +39,9 @@ licenseKey: ./license.key
 statefulsetName:   "terracotta-ss"
 serviceName:       "terracotta-headless-service"
 
+# The ports will be prefix10 - clients, prefix20 - jmx, prefix30 - group sync, prefix40 - management
+portPrefix: 95
+
 ## image pull secrets
 imagePullSecrets: []
 

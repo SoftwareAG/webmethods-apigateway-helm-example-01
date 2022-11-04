@@ -73,16 +73,17 @@ spec:
           {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - containerPort: 9510
+            - containerPort: {{ .Values.portPrefix }}10
               name: tsaport
               protocol: TCP
-            - containerPort: 9520
-              name: jmxport
-              protocol: TCP
-            # - containerPort: 9530
+            # normally these ports are not used, uncomment in case of need
+            # - containerPort: {{ .Values.portPrefix }}20
+            #   name: jmxport
+            #   protocol: TCP
+            # - containerPort: {{ .Values.portPrefix }}30
             #   name: groupport
             #   protocol: TCP
-            - containerPort: 9540
+            - containerPort: {{ .Values.portPrefix }}40
               name: mgtport
               protocol: TCP
             # - containerPort: 9889
