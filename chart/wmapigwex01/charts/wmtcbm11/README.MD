@@ -20,3 +20,11 @@ The BigMemory Server MUST be restartable, otherwise the clients will have to be 
 Additionally, we will also mount the logs folder and the backup folder.
 
 The mountpoint must be considered as variables, because they depend on how the image was built. At the moment this repository is created, various builds with various mount points are available.
+
+### Injecting configuration
+
+Configuration injection will be done as specified in the officially provided container setup instructions [here](https://containers.softwareag.com/products/bigmemorymax-server)
+
+In short, two files named exactly `license.key` and `tc-config.xml` must be present in readonly mode in the declared volume mountpoint `/opt/softwareag/config`.
+
+Refer to [this](https://stackoverflow.com/questions/59855142/use-a-single-volume-to-mount-multiple-files-from-secrets-or-configmaps) article on how this is achieved in Kubernetes.

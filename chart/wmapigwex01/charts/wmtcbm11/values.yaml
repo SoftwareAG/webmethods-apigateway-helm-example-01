@@ -2,13 +2,34 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# Constants used in the charts, as per design decisions:
+# These will not be declared here
 # replicaCount: 1
 
+
+###############################################################
+## Values that are expected to change frequently
+###############################################################
+
+# pointing to the officially supported Software AG registry
 image:
-  registry: ghcr.io/softwareag-government-solutions
-  repository: wmtcbm11
-  pullPolicy: IfNotPresent
-  tag: 10.11-latest
+  registry: sagcr.azurecr.io
+  repository: bigmemorymax-server
+  pullPolicy: Always
+  tag: 4.4.0
+
+# Note: these mounts are always required
+# the mount
+mountPaths:
+  # as per official documentation, tc-config.xml and the license.key files 
+  # must be mounted in readonly mode in this declared VOLUME
+  # see https://containers.softwareag.com/products/bigmemorymax-server - setup instructions
+  # the license file must be a secret
+  config: /opt/softwareag/config
+
+###############################################################
+## Values to be changed less frequently, for advanced users
+###############################################################
 
 ## image pull secrets
 imagePullSecrets: []
