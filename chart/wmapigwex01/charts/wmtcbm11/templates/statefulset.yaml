@@ -11,51 +11,38 @@ spec:
   # The default is to deploy all pods serially. By setting this to parallel all pods are started at
   # the same time when bootstrapping the cluster
   #podManagementPolicy: "Parallel"
-#   updateStrategy:
-#     type: RollingUpdate
-#     rollingUpdate: 
-#       partition: 0
-# {{- if or (eq .Values.persistence.diskstore.enabled true) (eq .Values.persistence.backups.enabled true) (eq .Values.persistence.index.enabled true) }}
-#   volumeClaimTemplates:
-#   {{- if .Values.persistence.diskstore.enabled }}
-#   - metadata:
-#       name: diskstore-{{ include "wmtcbm11.fullname" . }}
-#     {{- if .Values.persistence.diskstore.labels.enabled }}
-#       labels:
-# {{- include "wmtcbm11.labels" . | nindent 8 }}
-#     {{- end }}
-#     {{- with .Values.persistence.annotations }}
-#       annotations:
-# {{- toYaml . | nindent 8 }}
-#     {{- end }}
-    spec:
+  # updateStrategy:
+  #   type: RollingUpdate
+  #   rollingUpdate: 
+  #     partition: 0
+  volumeClaimTemplates:
+  - metadata:
+      name: diskstore-{{ include "wmtcbm11.fullname" . }}
+      labels:
+{{- include "wmtcbm11.labels" . | nindent 8 }}
+    {{- with .Values.persistence.annotations }}
+      annotations:
+{{- toYaml . | nindent 8 }}
+    {{- end }}
+   spec:
 {{ toYaml .Values.volumeClaimTemplates.diskstore | indent 6 }}
-  {{- end }}
-  {{- if .Values.persistence.backups.enabled }}
   - metadata:
       name: backups-{{ include "wmtcbm11.fullname" . }}
-    {{- if .Values.persistence.backups.labels.enabled }}
       labels:
         release: {{ .Release.Name | quote }}
         chart: {{ .Chart.Name }}
         app: {{ include "wmtcbm11.fullname" . }}
-    {{- end }}
     spec:
 {{ toYaml .Values.volumeClaimTemplates.backups | indent 6 }}
-  {{- end }}
-  {{- if .Values.persistence.index.enabled }}
   - metadata:
       name: index-{{ include "wmtcbm11.fullname" . }}
-    {{- if .Values.persistence.index.labels.enabled }}
       labels:
         release: {{ .Release.Name | quote }}
         chart: {{ .Chart.Name }}
         app: {{ include "wmtcbm11.fullname" . }}
-    {{- end }}
     spec:
 {{ toYaml .Values.volumeClaimTemplates.index | indent 6 }}
-  {{- end }}
-{{- end }}
+
   selector:
     matchLabels:
       {{- include "wmtcbm11.selectorLabels" . | nindent 6 }}
@@ -92,48 +79,46 @@ spec:
             - containerPort: 9520
               name: jmxport
               protocol: TCP
-            - containerPort: 9530
-              name: groupport
-              protocol: TCP
+            # - containerPort: 9530
+            #   name: groupport
+            #   protocol: TCP
             - containerPort: 9540
               name: mgtport
               protocol: TCP
             # - containerPort: 9889
             #   name: http
             #   protocol: TCP
-          startupProbe:
-            failureThreshold: 30
-            periodSeconds: 15
-            exec:
-              command:
-              - /bin/bash
-              - ./healthcheck.sh
-          livenessProbe:
-            successThreshold: 1
-            failureThreshold: 4
-            periodSeconds: 15
-            timeoutSeconds: 5
-            exec:
-              command:
-              - /bin/bash
-              - ./healthcheck.sh
+
+          ## TODO: discover the new probes
+          # startupProbe:
+          #   failureThreshold: 30
+          #   periodSeconds: 15
+          #   exec:
+          #     command:
+          #     - /bin/bash
+          #     - ./healthcheck.sh
+          # livenessProbe:
+          #   successThreshold: 1
+          #   failureThreshold: 4
+          #   periodSeconds: 15
+          #   timeoutSeconds: 5
+          #   exec:
+          #     command:
+          #     - /bin/bash
+          #     - ./healthcheck.sh
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
             {{- toYaml .Values.env | nindent 12 }}
           volumeMounts:
-          {{- if .Values.persistence.diskstore.enabled }}
             - name: diskstore-{{ include "wmtcbm11.fullname" . }}
-              mountPath: /opt/softwareag/Terracotta/data/diskstore
-          {{- end }}
-          {{- if .Values.persistence.backups.enabled }}
+              mountPath: {{ .Values.mountPaths.diskstore }}
             - name: backups-{{ include "wmtcbm11.fullname" . }}
-              mountPath: /opt/softwareag/Terracotta/data/backups
-          {{- end }}
-          {{- if .Values.persistence.index.enabled }}
+              mountPath: {{ .Values.mountPaths.backups }}
             - name: index-{{ include "wmtcbm11.fullname" . }}
-              mountPath: /opt/softwareag/Terracotta/data/index
-          {{- end }}
+              mountPath: {{ .Values.mountPaths.index }}
+            - name: multiple-config-files-volume
+              mountPath: {{ .Values.mountPaths.config }}
           {{- with .Values.licenseSecret }}
             - name: terracotta-license
               mountPath: /opt/softwareag/Terracotta/

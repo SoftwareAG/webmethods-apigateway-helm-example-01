@@ -5,6 +5,11 @@ This helm chart is inspired after the ones priveded by:
 - [Sofware AG Government Solutions](https://github.com/softwareag-government-solutions/saggov-helm-charts/tree/main/src/webmethods-terracotta)
 - [Software AG public example](https://github.com/SoftwareAG/webmethods-api-gateway/tree/master/samples/kubernetes/helm/cluster-deployment/apigateway/charts/terracotta)
 
+## Prerequisite
+
+A file named `license.key` must be present. As this is dependent on the environment and contract, it will not be committed in repositories and will be considered a [secret](templates/license-config.yaml).
+Note: Eventually change the relative Values.licenseKey to point to the correct file if the name is different.
+
 ## Local decisions
 
 ### One replica only
