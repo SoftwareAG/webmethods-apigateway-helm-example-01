@@ -1,0 +1,11 @@
+volumeClaimTemplates:
+  diskstore:
+    storageClassName: " "
+  backups:
+    storageClassName: " "
+  index:
+    storageClassName: " "
+
+global:
+  customPrefix: ag-01-1
+  labels: {}

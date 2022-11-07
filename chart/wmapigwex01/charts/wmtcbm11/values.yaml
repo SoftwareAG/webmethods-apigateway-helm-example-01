@@ -98,6 +98,7 @@ persistence:
     annotations: {}
 
 # these claim templates are only enabled if the persistence is enabled for the related layer
+# these values are going into the section spec.volumeClaimTemplates[<name>].spec
 volumeClaimTemplates:
   diskstore:
     accessModes: [ "ReadWriteOnce" ]

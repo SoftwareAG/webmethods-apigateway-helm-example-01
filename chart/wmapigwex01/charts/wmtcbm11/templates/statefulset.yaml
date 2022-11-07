@@ -112,19 +112,19 @@ spec:
           env:
             {{- toYaml .Values.env | nindent 12 }}
           volumeMounts:
-            - name: diskstore-{{ include "wmtcbm11.fullname" . }}
+            - name: diskstore-{{ .Values.global.customPrefix }}{{ .Values.statefulsetName }}
               mountPath: {{ .Values.mountPaths.diskstore }}
-            - name: backups-{{ include "wmtcbm11.fullname" . }}
+            - name: backups-{{ .Values.global.customPrefix }}{{ .Values.statefulsetName }}
               mountPath: {{ .Values.mountPaths.backups }}
-            - name: index-{{ include "wmtcbm11.fullname" . }}
+            - name: index-{{ .Values.global.customPrefix }}{{ .Values.statefulsetName }}
               mountPath: {{ .Values.mountPaths.index }}
             - name: multiple-config-files-volume
-              mountPath: {{ .Values.mountPaths.config }}
+              mountPath: -{{ .Values.global.customPrefix }}{{ .Values.statefulsetName }}
           {{- with .Values.licenseSecret }}
-            - name: terracotta-license
-              mountPath: /opt/softwareag/Terracotta/
-              # subPath: {{ .path }}
-              readOnly: true
+            # - name: terracotta-license
+            #   mountPath: /opt/softwareag/Terracotta/
+            #   # subPath: {{ .path }}
+            #   readOnly: true
           {{- end }}
       volumes:
       {{- with .Values.licenseSecret }}
