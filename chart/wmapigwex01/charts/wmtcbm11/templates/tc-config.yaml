@@ -15,9 +15,9 @@ data:
             {{- $fullServiceName := printf "%s%s" .Values.global.customPrefix .Values.serviceName }}
             <server host="{{ $fullSsName }}-0.{{ $fullServiceName }}" name="{{ $fullSsName }}-0" bind="0.0.0.0" jmx-enabled="false">
                 <logs>stdout:</logs>
-                <data>{{ .Values.mountPaths.datastore }}</data>
+                <data>{{ .Values.mountPaths.diskstore }}</data>
                 <index>{{ .Values.mountPaths.index }}</index>
-                <data-backup>{{ .Values.mountPaths.backup }}</data-backup>
+                <data-backup>{{ .Values.mountPaths.backups }}</data-backup>
                 <tsa-port bind="0.0.0.0">{{ .Values.portPrefix }}10</tsa-port>
                 <jmx-port bind="0.0.0.0">{{ .Values.portPrefix }}20</jmx-port>
                 <tsa-group-port bind="0.0.0.0">{{ .Values.portPrefix }}30</tsa-group-port>

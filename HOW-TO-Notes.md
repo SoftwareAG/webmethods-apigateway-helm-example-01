@@ -35,3 +35,9 @@ kubectl create secret docker-registry <regcred-name> \
 ## Mount multiple config maps and secrets inside a given mounted volume
 
 Hint: use ["projected" volumes](https://stackoverflow.com/questions/59855142/use-a-single-volume-to-mount-multiple-files-from-secrets-or-configmaps)
+
+## Testing with Docker Desktop
+
+### Persistent volumes
+
+In order to have dynamic provisioning of PVs, with Docker Desktop on WSL2, use the "hostpath" storageClassName in the PVC spec.
