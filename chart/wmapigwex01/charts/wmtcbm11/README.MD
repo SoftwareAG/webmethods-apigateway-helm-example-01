@@ -41,7 +41,7 @@ Refer to [this](https://stackoverflow.com/questions/59855142/use-a-single-volume
 - Go to the folder containing the file `docker-desktop-values-test1.secretValues.EXAMPLE.yaml`
 - Copy `docker-desktop-values-test1.secretValues.EXAMPLE.yaml` into `docker-desktop-values-test1.secretValues.yaml`
 - Change `docker-desktop-values-test1.secretValues.yaml` according to your context
-- Procure a Terracotta Big Memory license key and put it in the folder wmtcbm11 with the exact name `terracotta-license.key`
+- Procure a Terracotta Big Memory license key and put it in the folder wmtcbm11 with the exact name `license.key`
 - install the chart with
 
     ```sh
