@@ -1,10 +1,10 @@
 volumeClaimTemplates:
   diskstore:
-    storageClassName: " "
+    storageClassName: hostpath
   backups:
-    storageClassName: " "
+    storageClassName: hostpath
   index:
-    storageClassName: " "
+    storageClassName: hostpath
 
 global:
   customPrefix: ag-01-1
