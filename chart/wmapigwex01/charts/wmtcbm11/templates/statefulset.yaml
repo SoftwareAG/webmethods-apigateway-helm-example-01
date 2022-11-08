@@ -57,7 +57,7 @@ spec:
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+        - name: img-pull-secret-{{ include "wmtcbm11.fullname" . }}
       {{- end }}
       serviceAccountName: {{ include "wmtcbm11.serviceAccountName" . }}
       securityContext:
@@ -118,23 +118,16 @@ spec:
               mountPath: {{ .Values.mountPaths.backups }}
             - name: index-{{ .Values.global.customPrefix }}{{ .Values.statefulsetName }}
               mountPath: {{ .Values.mountPaths.index }}
-            - name: multiple-config-files-volume
-              mountPath: -{{ .Values.global.customPrefix }}{{ .Values.statefulsetName }}
-          {{- with .Values.licenseSecret }}
-            # - name: terracotta-license
-            #   mountPath: /opt/softwareag/Terracotta/
-            #   # subPath: {{ .path }}
-            #   readOnly: true
-          {{- end }}
+            - name: config-{{ .Values.global.customPrefix }}{{ .Values.statefulsetName }}
+              mountPath: {{ .Values.mountPaths.config }}
       volumes:
-      {{- with .Values.licenseSecret }}
-        - name: terracotta-license
-          secret:
-            secretName: {{ .name }}
-            items:
-            - key: {{ .key }}
-              path: {{ .path }}
-      {{- end }}
+      - name: config-{{ .Values.global.customPrefix }}{{ .Values.statefulsetName }}
+        projected:
+          sources:
+          - secret:
+              name: {{ .Values.global.customPrefix }}-tcbm-license-key
+          - configMap:
+              name: {{ .Values.global.customPrefix }}-tc-config
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

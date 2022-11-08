@@ -18,6 +18,14 @@ image:
   pullPolicy: Always
   tag: 4.4.0
 
+# The following values must be passed from a secret values yaml file
+#
+wmtcbm11ImageCredentials:
+  registry: quay.io
+  username: someone
+  password: sillyness
+  email: someone@host.com
+
 # Note: these mounts are always required
 # the mount
 mountPaths:
@@ -30,7 +38,8 @@ mountPaths:
   index: /data/index
   backups: /data/backups
 
-licenseKey: ./license.key
+# The below key must be provided explictly
+# licwmtcmbLicenseKeyenseKey: /path/to/terracotta-license.key
 
 ###############################################################
 ## Values to be changed less frequently, for advanced users
