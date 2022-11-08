@@ -55,10 +55,8 @@ spec:
       labels:
         {{- include "wmtcbm11.selectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        - name: img-pull-secret-{{ include "wmtcbm11.fullname" . }}
-      {{- end }}
+        - name: {{ .Values.imagePullSecrets.tcbmsSecretName  }}
       serviceAccountName: {{ include "wmtcbm11.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}

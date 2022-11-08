@@ -6,4 +6,4 @@ metadata:
 {{ include "wmtcbm11.labels" . | indent 4 }}
 type: Opaque
 data:
-{{ (.Files.Glob "*terracotta-license.key*").AsSecrets | indent 2 }}
+{{ (.Files.Glob "*license.key*").AsSecrets | indent 2 }}
