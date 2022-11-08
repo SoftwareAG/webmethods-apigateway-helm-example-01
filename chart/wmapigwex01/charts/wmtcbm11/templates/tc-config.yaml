@@ -13,7 +13,9 @@ data:
         <servers>
             {{- $fullSsName      := printf "%s%s" .Values.global.customPrefix .Values.statefulsetName }}
             {{- $fullServiceName := printf "%s%s" .Values.global.customPrefix .Values.serviceName }}
-            <server host="{{ $fullSsName }}-0.{{ $fullServiceName }}" name="{{ $fullSsName }}-0" bind="0.0.0.0" jmx-enabled="false">
+            <server host="{{ $fullSsName }}-0.{{ $fullServiceName }}.{{ .Release.Namespace }}.svc.cluster.local"
+                    name="{{ $fullSsName }}-0.{{ $fullServiceName }}.{{ .Release.Namespace }}.svc.cluster.local"
+                    bind="0.0.0.0" jmx-enabled="false">
                 <logs>stdout:</logs>
                 <data>{{ .Values.mountPaths.diskstore }}</data>
                 <index>{{ .Values.mountPaths.index }}</index>

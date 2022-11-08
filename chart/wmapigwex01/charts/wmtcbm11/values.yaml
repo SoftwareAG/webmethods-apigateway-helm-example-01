@@ -52,7 +52,7 @@ serviceName:       "terracotta-headless-service"
 portPrefix: 95
 
 ## image pull secrets
-imagePullSecrets: []
+#imagePullSecrets: []
 
 # additionals labels
 labels: {}
