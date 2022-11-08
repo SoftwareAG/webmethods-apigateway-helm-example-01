@@ -33,13 +33,10 @@ mountPaths:
   # must be mounted in readonly mode in this declared VOLUME
   # see https://containers.softwareag.com/products/bigmemorymax-server - setup instructions
   # the license file must be a secret
-  config: /opt/softwareag/config
-  diskstore: /data/diskstore
-  index: /data/index
-  backups: /data/backups
-
-# The below key must be provided explictly
-# licwmtcmbLicenseKeyenseKey: /path/to/terracotta-license.key
+  config:     /opt/softwareag/config
+  diskstore:  /data/diskstore
+  index:      /data/index
+  backups:    /data/backups
 
 ###############################################################
 ## Values to be changed less frequently, for advanced users
