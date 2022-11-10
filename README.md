@@ -40,3 +40,7 @@ As specified in the [provided examples](https://github.com/SoftwareAG/webmethods
 > myprefix-terracotta-ss-0              1/1     Running   0          20m
 > myprefix-terracotta-ss-1              1/1     Running   0          19m
 > ```
+
+
+______________________
+These tools are provided as-is and without warranty or support. They do not constitute part of the Software AG product suite. Users are free to use, fork and modify them, subject to the license agreement. While Software AG welcomes contributions, we cannot guarantee to include every contribution in the master project.	
